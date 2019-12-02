@@ -33,8 +33,19 @@
     shell: ./manage.py collectstatic --noinput chdir={{ django_dir }}
   - name: django migrate
     shell: ./manage.py migrate --noinput chdir={{ django_dir }}
-  - name: django loaddata
-    shell: ./manage.py loaddata user chdir={{ django_dir }}
+  #- name: django loaddata
+  #  shell: ./manage.py loaddata user chdir={{ django_dir }}
+
+  
+
+# check if superuser user exists, if not, create user.
+  - name: Check if superuser user exists, if not, create user.
+    django_manage:
+      command: shell -c "from django.contrib.auth import get_user_model; MyUser = get_user_model(); MyUser.objects.filter( username__exact = '{{ admin_user }}' ).count() == 0 or exit(); new_super_user = MyUser( username = '{{ admin_user }}', password='{{ admin_pass }}', email='{{ admin_email }}', is_superuser = True, is_staff = True ); new_super_user.save();"
+      app_path: "{{ django_dir }}"
+#   virtualenv: "{{ django_virtualenv_path }}"
+
+
 
 - hosts: all
   gather_facts: no
