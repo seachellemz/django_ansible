@@ -8,8 +8,8 @@ all:
         ansible_user: ubuntu
         become: yes
         become_user: root
-        repo_url: ssh://git@github.com
-        repo:  seachellemz/django_ansible
+        repo_url: ssh://git@github.com/seachellemz
+        repo:  django_ansible
         home_dir: /home/ubuntu
         repo_dir: "{{ home_dir }}/{{ repo }}"
         django_dir: "{{ repo_dir }}/django"
